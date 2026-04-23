@@ -76,8 +76,50 @@ abline(v = obs_diff, col="red", lwd=2)
 ```
 
 Discrete Distribution (geometric)
+We will model the number of shot attempts
+required for a player to achieve their first successful score using a geometric
+distribution. The success probability p will be approximated by TS%. We will
+compute expected values E[X]=1/p and probabilities such as P(X>k) to compare
+consistency between players with different usage levels.
+
+step 1: use E[x] = 1/p = 1/ ts%to find the mean value of the number of shot attempt a player need to achieve their first successful score
+step 2: use geometirc distribution to find probability of the kth attempt be the first successful score 
+step 3: using permuatation testing to c if the probability varies with differenct usage levels. 
+
+ctrl+ shift+ c --> comment multiple lines 
+```{r}
+#true_shooting <- cleaned_data$TS.
+
+#expected_value <- mean (1/true_shooting)
+
+
+# k  <- 2
+# success_less_than_2 <- pgeom(k-1,true_shooting)
+# hist(success_less_than_2, main="probability of getting the first score within 2 attempts", 
+#      xlab="miaomiao", col="skyblue")
+
+## print expected value
+## change graph label 
+#high usage rate
+expected_value_h <- mean (1/high_usage)
+hist(expected_value_h, main="probability of getting the first score within 2 attempts high",
+     xlab="miaomiao", col="skyblue")
+k  <- 2
+success_less_than_2_h <- pgeom(k-1,high_usage)
+hist(success_less_than_2_h, main="probability of getting the first score within 2 attempts high",
+     xlab="miaomiao", col="skyblue")
+
+# low usage rate
+expected_value_l <- mean (1/low_usage)
+hist(expected_value_l, main="probability of getting the first score within 2 attempts high",
+     xlab="miaomiao", col="skyblue")
+success_less_than_2_l <- pgeom(k-1,low_usage)
+hist(success_less_than_2_l, main="probability of getting the first score within 2 attempts low",
+     xlab="miaomiao", col="skyblue")
+
+```
+
 
 modeling number of attempts to first score using TS% as the probability of success $p$
-
 
 
