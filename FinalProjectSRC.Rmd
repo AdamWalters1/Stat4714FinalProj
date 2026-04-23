@@ -11,17 +11,29 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-library(tidyverse)
 nba_data <- read.csv("25-25PlayerStats.csv")
 
-# Filter for MpG >= 4 and GP >= 3
-cleaned_data <- nba_data %>%
-  filter(MpG >= 4, GP >= 3, ORtg <= 160, ORtg >= 50,TO. >= 2,TO. <=50) %>%
-  # Ensure stats are numeric for analysis
-  mutate(across(c(USG., TS., TO., ORtg, eFG.), as.numeric)) %>%
-  drop_na(USG., TS., TO., ORtg) # Remove any remaining incomplete rows
+# Cleaning the data to remove outliers
+# 1. Convert character columns to numeric
+# This handles the "mutate(across(...))" step for USG%, TS%, TO%, ORtg, and eFG% [cite: 62]
+cols_to_fix <- c("USG.", "TS.", "TO.", "ORtg", "eFG.")
+nba_data[cols_to_fix] <- lapply(nba_data[cols_to_fix], as.numeric)
 
-# Quick look at the data
+# 2. Filter for play-time requirements and outliers 
+cleaned_data <- subset(nba_data, 
+                       MpG >= 4 & 
+                       GP >= 3 & 
+                       ORtg <= 160 & 
+                       ORtg >= 50 & 
+                       TO. >= 2 & 
+                       TO. <= 50)
+
+# 3. Remove rows with missing values in key analytical variables
+# This mimics the "drop_na" behavior for your specific regression inputs
+critical_cols <- c("USG.", "TS.", "TO.", "ORtg")
+cleaned_data <- cleaned_data[complete.cases(cleaned_data[, critical_cols]), ]
+
+# 4. View results
 summary(cleaned_data)
 ```
 
