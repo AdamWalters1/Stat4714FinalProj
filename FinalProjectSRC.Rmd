@@ -15,7 +15,7 @@ nba_data <- read.csv("25-25PlayerStats.csv")
 
 # Cleaning the data to remove outliers
 # 1. Convert character columns to numeric
-# This handles the "mutate(across(...))" step for USG%, TS%, TO%, ORtg, and eFG% [cite: 62]
+
 cols_to_fix <- c("USG.", "TS.", "TO.", "ORtg", "eFG.")
 nba_data[cols_to_fix] <- lapply(nba_data[cols_to_fix], as.numeric)
 
@@ -29,7 +29,6 @@ cleaned_data <- subset(nba_data,
                        TO. <= 50)
 
 # 3. Remove rows with missing values in key analytical variables
-# This mimics the "drop_na" behavior for your specific regression inputs
 critical_cols <- c("USG.", "TS.", "TO.", "ORtg")
 cleaned_data <- cleaned_data[complete.cases(cleaned_data[, critical_cols]), ]
 
