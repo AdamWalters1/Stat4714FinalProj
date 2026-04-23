@@ -11,6 +11,63 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-player_data <- read.csv("25-25PlayerStats.csv")
+library(tidyverse)
+nba_data <- read.csv("25-25PlayerStats.csv")
+
+# Filter for MpG >= 4 and GP >= 3
+cleaned_data <- nba_data %>%
+  filter(MpG >= 4, GP >= 3, ORtg <= 160, ORtg >= 50,TO. >= 2,TO. <=50) %>%
+  # Ensure stats are numeric for analysis
+  mutate(across(c(USG., TS., TO., ORtg, eFG.), as.numeric)) %>%
+  drop_na(USG., TS., TO., ORtg) # Remove any remaining incomplete rows
+
+# Quick look at the data
+summary(cleaned_data)
 ```
+
+
+## Multiple Linear Regression
+Implements linear regression model $ORtg = \beta_0 + \beta_1(USG\%) + \beta_2(TS\%) + \beta_3(TO\%) + \epsilon$
+(revisit if we are instructed to use different method for multiple linear regression)
+
+
+Hypothesis Testing: Permutation test
+```{r}
+# Define groups 
+high_usage <- cleaned_data$TS.[cleaned_data$USG. > 25]
+low_usage <- cleaned_data$TS.[cleaned_data$USG. <= 25]
+
+# Observed difference
+obs_diff <- mean(high_usage) - mean(low_usage)
+
+# Permutation Test 
+set.seed(4714)
+
+n_permutations <- 10000
+perm_diffs <- numeric(n_permutations)
+all_ts <- c(high_usage, low_usage)
+n_high <- length(high_usage)
+
+for (i in 1:n_permutations) {
+  shuffled <- sample(all_ts)
+  perm_high <- shuffled[1:n_high]
+  perm_low <- shuffled[(n_high + 1):length(all_ts)]
+  perm_diffs[i] <- mean(perm_high) - mean(perm_low)
+}
+
+# Calculate P-value (two-tailed)
+p_value <- mean(abs(perm_diffs) >= abs(obs_diff))
+print(paste("Permutation P-value:", p_value))
+
+# Visualize the distribution
+hist(perm_diffs, main="Distribution of Permuted Differences", 
+     xlab="Difference in Mean TS%", col="skyblue")
+abline(v = obs_diff, col="red", lwd=2)
+```
+
+Discrete Distribution (geometric)
+
+modeling number of attempts to first score using TS% as the probability of success $p$
+
+
 
