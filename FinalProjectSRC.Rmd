@@ -41,6 +41,8 @@ summary(cleaned_data)
 Implements linear regression model $ORtg = \beta_0 + \beta_1(USG\%) + \beta_2(TS\%) + \beta_3(TO\%) + \epsilon$
 (revisit if we are instructed to use different method for multiple linear regression)
 
+hello hello 
+
 
 Hypothesis Testing: Permutation test
 ```{r}
