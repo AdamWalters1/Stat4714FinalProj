@@ -36,7 +36,6 @@ cleaned_data <- cleaned_data[complete.cases(cleaned_data[, critical_cols]), ]
 summary(cleaned_data)
 ```
 
-
 ## Multiple Linear Regression
 Implements linear regression model $ORtg = \beta_0 + \beta_1(USG\%) + \beta_2(TS\%) + \beta_3(TO\%) + \epsilon$
 (revisit if we are instructed to use different method for multiple linear regression)
