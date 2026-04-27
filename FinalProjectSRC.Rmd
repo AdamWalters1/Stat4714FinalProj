@@ -38,11 +38,22 @@ summary(cleaned_data)
 
 
 ## Multiple Linear Regression
-Implements linear regression model $ORtg = \beta_0 + \beta_1(USG\%) + \beta_2(TS\%) + \beta_3(TO\%) + \epsilon$
-(revisit if we are instructed to use different method for multiple linear regression)
+# Implements linear regression model $ORtg = \beta_0 + \beta_1(USG\%) + \beta_2(TS\%) + \beta_3(TO\%) + \epsilon$
+# (revisit if we are instructed to use different method for multiple linear regression)
 
-hello hello 
+```{r}
+# Multiple linear regression based in cleaned data
+regression_model <- lm(ORtg ~ USG. + TS. + TO., data = cleaned_data)
 
+# Outputs determined via regression model: coefficients, p-value, R^2
+model_summary <- summary(regression_model)
+
+# Plot model
+plot(regression_model)
+
+# Confidence intervals for determined coefficients
+confint(regression_model)
+```
 
 Hypothesis Testing: Permutation test
 ```{r}
