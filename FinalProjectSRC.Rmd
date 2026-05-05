@@ -42,17 +42,50 @@ summary(cleaned_data)
 # (revisit if we are instructed to use different method for multiple linear regression)
 
 ```{r}
-# Multiple linear regression based in cleaned data
+# Multiple linear regression based on cleaned data
 regression_model <- lm(ORtg ~ USG. + TS. + TO., data = cleaned_data)
 
-# Outputs determined via regression model: coefficients, p-value, R^2
+# Storing summary of outputs determined via regression model
 model_summary <- summary(regression_model)
+
+# Storing the coefficient table
+coef_table <- coef(model_summary)
+
+# Storing confidence intervals
+coef_intervals <- confint(regression_model)
+
+cat("MULTIPLE LINEAR REGRESSION RESULTS\n")
+
+cat("Regression equation coefficients:\n")
+print(round(coef(regression_model), 4))
+
+cat("\nRegression equation:\n")
+cat("Predicted ORtg = ",
+    round(coef(regression_model)[1], 4), " + ",
+    round(coef(regression_model)["USG."], 4), "(USG.) + ",
+    round(coef(regression_model)["TS."], 4), "(TS.) + ",
+    round(coef(regression_model)["TO."], 4), "(TO.)\n",
+    sep = "")
+
+# Printing regression equation coefficients
+cat("\nCoefficient table:\n")
+print(round(coef_table, 4))
+
+# Printing adjusted R^2
+cat("\nAdjusted R-squared:\n")
+cat(round(model_summary$adj.r.squared, 4), "\n")
+
+# Printing p-values for intercept and predictors
+cat("\nP-values:\n")
+print(coef_table[, "Pr(>|t|)"])
+
+# Confidence intervals for determined coefficients
+cat("\n95% confidence intervals for coefficients:\n")
+print(round(coef_intervals, 4))
 
 # Plot model
 plot(regression_model)
 
-# Confidence intervals for determined coefficients
-confint(regression_model)
 ```
 
 Hypothesis Testing: Permutation test
