@@ -1,9 +1,10 @@
 ---
 title: "FinalProj"
-author: "Adam Walters"
+author: "Adam Walters, Jijun Niu"
 date: "`r Sys.Date()`"
 output: html_document
 ---
+## Set up: Clean Data
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -37,9 +38,8 @@ summary(cleaned_data)
 ```
 
 
-## Multiple Linear Regression
-# Implements linear regression model $ORtg = \beta_0 + \beta_1(USG\%) + \beta_2(TS\%) + \beta_3(TO\%) + \epsilon$
-# (revisit if we are instructed to use different method for multiple linear regression)
+## Part 1: Multiple Linear Regression
+Implements linear regression model $ORtg = \beta_0 + \beta_1(USG\%) + \beta_2(TS\%) + \beta_3(TO\%) + \epsilon$
 
 ```{r}
 # Multiple linear regression based on cleaned data
@@ -88,7 +88,7 @@ plot(regression_model)
 
 ```
 
-Hypothesis Testing: Permutation test
+## Part 2:Hypothesis Testing: Permutation test
 ```{r}
 # Define groups 
 high_usage <- cleaned_data$TS.[cleaned_data$USG. > 25]
@@ -122,51 +122,35 @@ hist(perm_diffs, main="Distribution of Permuted Differences",
 abline(v = obs_diff, col="red", lwd=2)
 ```
 
-Discrete Distribution (geometric)
-We will model the number of shot attempts
-required for a player to achieve their first successful score using a geometric
-distribution. The success probability p will be approximated by TS%. We will
-compute expected values E[X]=1/p and probabilities such as P(X>k) to compare
-consistency between players with different usage levels.
+# Part 3: Discrete Distribution (geometric)
+We will model the number of shot attempts required for a player to achieve their first successful score using a geometric distribution. The success probability p will be approximated by TS%. We will
+compute expected values $ E[X]=1/p$ and probabilities such as $ P(X>k) $to compare
+consistency between players with different usage levels. Modeling number of attempts to first score using TS% as the probability of success $p$
 
-step 1: use E[x] = 1/p = 1/ ts%to find the mean value of the number of shot attempt a player need to achieve their first successful score
-step 2: use geometirc distribution to find probability of the kth attempt be the first successful score 
-step 3: using permuatation testing to c if the probability varies with differenct usage levels. 
+
+step 1: use $E[x] = 1/p = 1/ ts% $ to find the mean value of the number of shot attempt a player need to achieve their first successful score
+
+step 2: use geometirc distribution to find probability of the 2nd attempt be the first successful score for high usage and low usage NBS player
+
 
 ctrl+ shift+ c --> comment multiple lines 
 ```{r}
-#true_shooting <- cleaned_data$TS.
-
-#expected_value <- mean (1/true_shooting)
-
-
-# k  <- 2
-# success_less_than_2 <- pgeom(k-1,true_shooting)
-# hist(success_less_than_2, main="probability of getting the first score within 2 attempts", 
-#      xlab="miaomiao", col="skyblue")
-
-## print expected value
-## change graph label 
 #high usage rate
 expected_value_h <- mean (1/high_usage)
-hist(expected_value_h, main="probability of getting the first score within 2 attempts high",
-     xlab="miaomiao", col="skyblue")
+expected_value_h
 k  <- 2
 success_less_than_2_h <- pgeom(k-1,high_usage)
-hist(success_less_than_2_h, main="probability of getting the first score within 2 attempts high",
-     xlab="miaomiao", col="skyblue")
+hist(success_less_than_2_h, main="probability of getting the first score within 2 attempts for high usage player", xlab="Probability", col="skyblue")
 
 # low usage rate
 expected_value_l <- mean (1/low_usage)
-hist(expected_value_l, main="probability of getting the first score within 2 attempts high",
-     xlab="miaomiao", col="skyblue")
+expected_value_l
+
 success_less_than_2_l <- pgeom(k-1,low_usage)
-hist(success_less_than_2_l, main="probability of getting the first score within 2 attempts low",
-     xlab="miaomiao", col="skyblue")
+hist(success_less_than_2_l, main="probability of getting the first score within 2 attempts for low usage player", xlab="Probability", col="skyblue")
 
 ```
 
-
-modeling number of attempts to first score using TS% as the probability of success $p$
-
+Discussion: 
+High-usage players and low-usage players have a similar mean value of around 1.75 attempts to achieve their first successful score. However, the probability of scoring within the first two attempts differs between the two groups. Low-usage players show a much wider spread, with probabilities ranging from 0.30 to 1.00, while high-usage players are more concentrated between 0.70 and 0.95. This suggests that high-usage players are generally more consistent scorers
 
