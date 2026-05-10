@@ -4,6 +4,7 @@ author: "Adam Walters, Jijun Niu"
 date: "`r Sys.Date()`"
 output: html_document
 ---
+## Set up: Clean Data
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -36,9 +37,15 @@ cleaned_data <- cleaned_data[complete.cases(cleaned_data[, critical_cols]), ]
 summary(cleaned_data)
 ```
 
+<<<<<<< HEAD
 # Multiple Linear Regression
 ### Implements linear regression model 
 $ORtg = \beta_0 + \beta_1(USG\%) + \beta_2(TS\%) + \beta_3(TO\%) + \epsilon$
+=======
+
+## Part 1: Multiple Linear Regression
+Implements linear regression model $ORtg = \beta_0 + \beta_1(USG\%) + \beta_2(TS\%) + \beta_3(TO\%) + \epsilon$
+>>>>>>> 53de344b6ce0001a01938b133095e81824eb57b7
 
 ```{r}
 # Multiple linear regression based on cleaned data
@@ -87,8 +94,12 @@ plot(regression_model)
 
 ```
 
+<<<<<<< HEAD
 # Hypothesis Testing: Permutation test
 
+=======
+## Part 2:Hypothesis Testing: Permutation test
+>>>>>>> 53de344b6ce0001a01938b133095e81824eb57b7
 ```{r}
 # Define groups 
 high_usage <- cleaned_data$TS.[cleaned_data$USG. > 25]
@@ -153,6 +164,9 @@ hist(success_less_than_2_l, main="probability of getting the first score within 
 
 Discussion: 
 High-usage players and low-usage players have a similar mean value of around 1.75 attempts to achieve their first successful score. However, the probability of scoring within the first two attempts differs between the two groups. Low-usage players show a much wider spread, with probabilities ranging from 0.30 to 1.00, while high-usage players are more concentrated between 0.70 and 0.95. This suggests that high-usage players are generally more consistent scorers
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 53de344b6ce0001a01938b133095e81824eb57b7
 
