@@ -1,0 +1,441 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={FinalProj},
+  pdfauthor={Adam Walters, Jijun Niu},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{FinalProj}
+\author{Adam Walters, Jijun Niu}
+\date{2026-05-10}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nba\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"25{-}25PlayerStats.csv"}\NormalTok{)}
+
+\CommentTok{\# Cleaning the data to remove outliers}
+\CommentTok{\# 1. Convert character columns to numeric}
+
+\NormalTok{cols\_to\_fix }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"USG."}\NormalTok{, }\StringTok{"TS."}\NormalTok{, }\StringTok{"TO."}\NormalTok{, }\StringTok{"ORtg"}\NormalTok{, }\StringTok{"eFG."}\NormalTok{)}
+\NormalTok{nba\_data[cols\_to\_fix] }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(nba\_data[cols\_to\_fix], as.numeric)}
+
+\CommentTok{\# 2. Filter for play{-}time requirements and outliers }
+\NormalTok{cleaned\_data }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(nba\_data, }
+\NormalTok{                       MpG }\SpecialCharTok{\textgreater{}=} \DecValTok{4} \SpecialCharTok{\&} 
+\NormalTok{                       GP }\SpecialCharTok{\textgreater{}=} \DecValTok{3} \SpecialCharTok{\&} 
+\NormalTok{                       ORtg }\SpecialCharTok{\textless{}=} \DecValTok{160} \SpecialCharTok{\&} 
+\NormalTok{                       ORtg }\SpecialCharTok{\textgreater{}=} \DecValTok{50} \SpecialCharTok{\&} 
+\NormalTok{                       TO. }\SpecialCharTok{\textgreater{}=} \DecValTok{2} \SpecialCharTok{\&} 
+\NormalTok{                       TO. }\SpecialCharTok{\textless{}=} \DecValTok{50}\NormalTok{)}
+
+\CommentTok{\# 3. Remove rows with missing values in key analytical variables}
+\NormalTok{critical\_cols }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"USG."}\NormalTok{, }\StringTok{"TS."}\NormalTok{, }\StringTok{"TO."}\NormalTok{, }\StringTok{"ORtg"}\NormalTok{)}
+\NormalTok{cleaned\_data }\OtherTok{\textless{}{-}}\NormalTok{ cleaned\_data[}\FunctionTok{complete.cases}\NormalTok{(cleaned\_data[, critical\_cols]), ]}
+
+\CommentTok{\# 4. View results}
+\FunctionTok{summary}\NormalTok{(cleaned\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    RANK             NAME               TEAM               CUR           
+##  Mode:logical   Length:608         Length:608         Length:608        
+##  NA's:608       Class :character   Class :character   Class :character  
+##                 Mode  :character   Mode  :character   Mode  :character  
+##                                                                         
+##                                                                         
+##                                                                         
+##      POS                 AGE             GP             MpG       
+##  Length:608         Min.   :19.3   Min.   : 3.00   Min.   : 4.20  
+##  Class :character   1st Qu.:23.7   1st Qu.:23.00   1st Qu.:13.40  
+##  Mode  :character   Median :25.9   Median :44.00   Median :20.60  
+##                     Mean   :26.7   Mean   :43.47   Mean   :20.32  
+##                     3rd Qu.:29.1   3rd Qu.:65.00   3rd Qu.:27.20  
+##                     Max.   :41.3   Max.   :82.00   Max.   :38.00  
+##       USG.            TO.             FTA              FT.        
+##  Min.   : 6.20   Min.   : 3.20   Min.   :  0.00   Min.   :0.0000  
+##  1st Qu.:14.70   1st Qu.:10.70   1st Qu.: 18.00   1st Qu.:0.6947  
+##  Median :17.95   Median :13.45   Median : 56.50   Median :0.7790  
+##  Mean   :18.57   Mean   :14.10   Mean   : 94.82   Mean   :0.7500  
+##  3rd Qu.:21.90   3rd Qu.:16.40   3rd Qu.:123.00   3rd Qu.:0.8420  
+##  Max.   :38.10   Max.   :48.90   Max.   :645.00   Max.   :1.0000  
+##       X2PA             X2P.             X3PA             X3P.       
+##  Min.   :   0.0   Min.   :0.0000   Min.   :  0.00   Min.   :0.0000  
+##  1st Qu.:  47.0   1st Qu.:0.4920   1st Qu.: 29.25   1st Qu.:0.2910  
+##  Median : 132.5   Median :0.5365   Median :101.50   Median :0.3420  
+##  Mean   : 210.5   Mean   :0.5407   Mean   :149.35   Mean   :0.3184  
+##  3rd Qu.: 299.0   3rd Qu.:0.5982   3rd Qu.:231.25   3rd Qu.:0.3850  
+##  Max.   :1139.0   Max.   :1.0000   Max.   :740.00   Max.   :1.0000  
+##       eFG.            TS.              PpG              RpG        
+##  Min.   :0.125   Min.   :0.1820   Min.   : 0.800   Min.   : 0.200  
+##  1st Qu.:0.497   1st Qu.:0.5288   1st Qu.: 4.500   1st Qu.: 2.000  
+##  Median :0.538   Median :0.5730   Median : 8.200   Median : 3.100  
+##  Mean   :0.536   Mean   :0.5671   Mean   : 9.516   Mean   : 3.676  
+##  3rd Qu.:0.578   3rd Qu.:0.6100   3rd Qu.:12.850   3rd Qu.: 4.925  
+##  Max.   :0.857   Max.   :0.8210   Max.   :33.500   Max.   :12.900  
+##       ApG              SpG              BpG              TOpG      
+##  Min.   : 0.000   Min.   :0.0000   Min.   :0.0000   Min.   :0.100  
+##  1st Qu.: 0.975   1st Qu.:0.4000   1st Qu.:0.1000   1st Qu.:0.600  
+##  Median : 1.700   Median :0.7000   Median :0.3000   Median :1.000  
+##  Mean   : 2.240   Mean   :0.7191   Mean   :0.4072   Mean   :1.178  
+##  3rd Qu.: 3.000   3rd Qu.:0.9000   3rd Qu.:0.5000   3rd Qu.:1.600  
+##  Max.   :10.700   Max.   :2.7000   Max.   :3.1000   Max.   :4.000  
+##       P.R             P.A            P.R.A              VI        
+##  Min.   : 1.00   Min.   : 1.10   Min.   : 2.200   Min.   : 0.000  
+##  1st Qu.: 6.80   1st Qu.: 5.80   1st Qu.: 7.975   1st Qu.: 6.200  
+##  Median :11.90   Median :10.15   Median :13.900   Median : 7.300  
+##  Mean   :13.19   Mean   :11.75   Mean   :15.425   Mean   : 7.542  
+##  3rd Qu.:18.00   3rd Qu.:15.70   3rd Qu.:20.600   3rd Qu.: 8.700  
+##  Max.   :41.20   Max.   :41.80   Max.   :51.300   Max.   :18.000  
+##       ORtg            DRtg      
+##  Min.   : 55.0   Min.   : 89.7  
+##  1st Qu.:108.1   1st Qu.:107.3  
+##  Median :115.6   Median :110.7  
+##  Mean   :115.2   Mean   :110.5  
+##  3rd Qu.:122.6   3rd Qu.:114.0  
+##  Max.   :157.5   Max.   :123.6
+\end{verbatim}
+
+\subsection{Multiple Linear
+Regression}\label{multiple-linear-regression}
+
+\subsubsection{\texorpdfstring{Implements linear regression model
+\(ORtg = \beta_0 + \beta_1(USG\%) + \beta_2(TS\%) + \beta_3(TO\%) + \epsilon\)}{Implements linear regression model ORtg = \textbackslash beta\_0 + \textbackslash beta\_1(USG\textbackslash\%) + \textbackslash beta\_2(TS\textbackslash\%) + \textbackslash beta\_3(TO\textbackslash\%) + \textbackslash epsilon}}\label{implements-linear-regression-model-ortg-beta_0-beta_1usg-beta_2ts-beta_3to-epsilon}
+
+\section{(revisit if we are instructed to use different method for
+multiple linear
+regression)}\label{revisit-if-we-are-instructed-to-use-different-method-for-multiple-linear-regression}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Multiple linear regression based on cleaned data}
+\NormalTok{regression\_model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(ORtg }\SpecialCharTok{\textasciitilde{}}\NormalTok{ USG. }\SpecialCharTok{+}\NormalTok{ TS. }\SpecialCharTok{+}\NormalTok{ TO., }\AttributeTok{data =}\NormalTok{ cleaned\_data)}
+
+\CommentTok{\# Storing summary of outputs determined via regression model}
+\NormalTok{model\_summary }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(regression\_model)}
+
+\CommentTok{\# Storing the coefficient table}
+\NormalTok{coef\_table }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(model\_summary)}
+
+\CommentTok{\# Storing confidence intervals}
+\NormalTok{coef\_intervals }\OtherTok{\textless{}{-}} \FunctionTok{confint}\NormalTok{(regression\_model)}
+
+\CommentTok{\#MULTIPLE LINEAR REGRESSION RESULTS}
+
+\CommentTok{\#Regression equation coefficients:}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{round}\NormalTok{(}\FunctionTok{coef}\NormalTok{(regression\_model), }\DecValTok{4}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (Intercept)        USG.         TS.         TO. 
+##     53.4961     -0.4189    137.4049     -0.6008
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#nRegression equation:}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Predicted ORtg = "}\NormalTok{,}
+    \FunctionTok{round}\NormalTok{(}\FunctionTok{coef}\NormalTok{(regression\_model)[}\DecValTok{1}\NormalTok{], }\DecValTok{4}\NormalTok{), }\StringTok{" + "}\NormalTok{,}
+    \FunctionTok{round}\NormalTok{(}\FunctionTok{coef}\NormalTok{(regression\_model)[}\StringTok{"USG."}\NormalTok{], }\DecValTok{4}\NormalTok{), }\StringTok{"(USG.) + "}\NormalTok{,}
+    \FunctionTok{round}\NormalTok{(}\FunctionTok{coef}\NormalTok{(regression\_model)[}\StringTok{"TS."}\NormalTok{], }\DecValTok{4}\NormalTok{), }\StringTok{"(TS.) + "}\NormalTok{,}
+    \FunctionTok{round}\NormalTok{(}\FunctionTok{coef}\NormalTok{(regression\_model)[}\StringTok{"TO."}\NormalTok{], }\DecValTok{4}\NormalTok{), }\StringTok{"(TO.)}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+    \AttributeTok{sep =} \StringTok{""}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Predicted ORtg = 53.4961 + -0.4189(USG.) + 137.4049(TS.) + -0.6008(TO.)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Printing regression equation coefficients}
+\CommentTok{\#Coefficient table:}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{round}\NormalTok{(coef\_table, }\DecValTok{4}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             Estimate Std. Error  t value Pr(>|t|)
+## (Intercept)  53.4961     1.9706  27.1477        0
+## USG.         -0.4189     0.0423  -9.8958        0
+## TS.         137.4049     2.9529  46.5320        0
+## TO.          -0.6008     0.0420 -14.3073        0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Printing adjusted R\^{}2}
+\CommentTok{\#Adjusted R{-}squared:}
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{round}\NormalTok{(model\_summary}\SpecialCharTok{$}\NormalTok{adj.r.squared, }\DecValTok{4}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 0.8019
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Printing p{-}values for intercept and predictors}
+\CommentTok{\#P{-}values:}
+\FunctionTok{print}\NormalTok{(coef\_table[, }\StringTok{"Pr(\textgreater{}|t|)"}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   (Intercept)          USG.           TS.           TO. 
+## 1.072936e-106  1.689097e-21 7.001882e-202  3.379383e-40
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Confidence intervals for determined coefficients}
+\CommentTok{\#95\% confidence intervals for coefficients:}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{round}\NormalTok{(coef\_intervals, }\DecValTok{4}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                2.5 %   97.5 %
+## (Intercept)  49.6261  57.3661
+## USG.         -0.5021  -0.3358
+## TS.         131.6056 143.2041
+## TO.          -0.6833  -0.5184
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Plot model}
+\FunctionTok{plot}\NormalTok{(regression\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{FinalProjectSRC_files/figure-latex/unnamed-chunk-2-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{FinalProjectSRC_files/figure-latex/unnamed-chunk-2-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{FinalProjectSRC_files/figure-latex/unnamed-chunk-2-3.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{FinalProjectSRC_files/figure-latex/unnamed-chunk-2-4.pdf}}
+
+Hypothesis Testing: Permutation test
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Define groups }
+\NormalTok{high\_usage }\OtherTok{\textless{}{-}}\NormalTok{ cleaned\_data}\SpecialCharTok{$}\NormalTok{TS.[cleaned\_data}\SpecialCharTok{$}\NormalTok{USG. }\SpecialCharTok{\textgreater{}} \DecValTok{25}\NormalTok{]}
+\NormalTok{low\_usage }\OtherTok{\textless{}{-}}\NormalTok{ cleaned\_data}\SpecialCharTok{$}\NormalTok{TS.[cleaned\_data}\SpecialCharTok{$}\NormalTok{USG. }\SpecialCharTok{\textless{}=} \DecValTok{25}\NormalTok{]}
+
+\CommentTok{\# Observed difference}
+\NormalTok{obs\_diff }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(high\_usage) }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(low\_usage)}
+
+\CommentTok{\# Permutation Test }
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{4714}\NormalTok{)}
+
+\NormalTok{n\_permutations }\OtherTok{\textless{}{-}} \DecValTok{10000}
+\NormalTok{perm\_diffs }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n\_permutations)}
+\NormalTok{all\_ts }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(high\_usage, low\_usage)}
+\NormalTok{n\_high }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(high\_usage)}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n\_permutations) \{}
+\NormalTok{  shuffled }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(all\_ts)}
+\NormalTok{  perm\_high }\OtherTok{\textless{}{-}}\NormalTok{ shuffled[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{n\_high]}
+\NormalTok{  perm\_low }\OtherTok{\textless{}{-}}\NormalTok{ shuffled[(n\_high }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(all\_ts)]}
+\NormalTok{  perm\_diffs[i] }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(perm\_high) }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(perm\_low)}
+\NormalTok{\}}
+
+\CommentTok{\# Calculate P{-}value (two{-}tailed)}
+\NormalTok{p\_value }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(perm\_diffs) }\SpecialCharTok{\textgreater{}=} \FunctionTok{abs}\NormalTok{(obs\_diff))}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Permutation P{-}value:"}\NormalTok{, p\_value))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Permutation P-value: 0.0472"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Visualize the distribution}
+\FunctionTok{hist}\NormalTok{(perm\_diffs, }\AttributeTok{main=}\StringTok{"Distribution of Permuted Differences"}\NormalTok{, }
+     \AttributeTok{xlab=}\StringTok{"Difference in Mean TS\%"}\NormalTok{, }\AttributeTok{col=}\StringTok{"skyblue"}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{v =}\NormalTok{ obs\_diff, }\AttributeTok{col=}\StringTok{"red"}\NormalTok{, }\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{FinalProjectSRC_files/figure-latex/unnamed-chunk-3-1.pdf}}
+
+\section{Part 3: Discrete Distribution
+(geometric)}\label{part-3-discrete-distribution-geometric}
+
+We will model the number of shot attempts required for a player to
+achieve their first successful score using a geometric distribution. The
+success probability p will be approximated by TS\%. We will compute
+expected values \$ E{[}X{]}=1/p\$ and probabilities such as \$
+P(X\textgreater k) \$to compare consistency between players with
+different usage levels. Modeling number of attempts to first score using
+TS\% as the probability of success \(p\)
+
+step 1: use \$E{[}x{]} = 1/p = 1/ ts\% \$ to find the mean value of the
+number of shot attempt a player need to achieve their first successful
+score
+
+step 2: use geometirc distribution to find probability of the 2nd
+attempt be the first successful score for high usage and low usage NBS
+player
+
+ctrl+ shift+ c --\textgreater{} comment multiple lines
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#high usage rate}
+\NormalTok{expected\_value\_h }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{/}\NormalTok{high\_usage)}
+\NormalTok{expected\_value\_h}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.722965
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{k  }\OtherTok{\textless{}{-}} \DecValTok{2}
+\NormalTok{success\_less\_than\_2\_h }\OtherTok{\textless{}{-}} \FunctionTok{pgeom}\NormalTok{(k}\DecValTok{{-}1}\NormalTok{,high\_usage)}
+\FunctionTok{hist}\NormalTok{(success\_less\_than\_2\_h, }\AttributeTok{main=}\StringTok{"probability of getting the first score within 2 attempts for high usage player"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Probability"}\NormalTok{, }\AttributeTok{col=}\StringTok{"skyblue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{FinalProjectSRC_files/figure-latex/unnamed-chunk-4-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# low usage rate}
+\NormalTok{expected\_value\_l }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{/}\NormalTok{low\_usage)}
+\NormalTok{expected\_value\_l}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.818077
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{success\_less\_than\_2\_l }\OtherTok{\textless{}{-}} \FunctionTok{pgeom}\NormalTok{(k}\DecValTok{{-}1}\NormalTok{,low\_usage)}
+\FunctionTok{hist}\NormalTok{(success\_less\_than\_2\_l, }\AttributeTok{main=}\StringTok{"probability of getting the first score within 2 attempts for low usage player"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Probability"}\NormalTok{, }\AttributeTok{col=}\StringTok{"skyblue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{FinalProjectSRC_files/figure-latex/unnamed-chunk-4-2.pdf}}
+
+Discussion: High-usage players and low-usage players have a similar mean
+value of around 1.75 attempts to achieve their first successful score.
+However, the probability of scoring within the first two attempts
+differs between the two groups. Low-usage players show a much wider
+spread, with probabilities ranging from 0.30 to 1.00, while high-usage
+players are more concentrated between 0.70 and 0.95. This suggests that
+high-usage players are generally more consistent scorers
+
+\end{document}
