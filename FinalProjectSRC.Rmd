@@ -193,14 +193,11 @@ hist(success_less_than_2_l, main="Prob of getting first score within 2 attempts 
 
 ```
 
-Discussion: 
-High-usage players and low-usage players have a similar mean value of around 1.75 attempts to achieve their first successful score. However, the probability of scoring within the first two attempts differs between the two groups. Low-usage players show a much wider spread, with probabilities ranging from 0.30 to 1.00, while high-usage players are more concentrated between 0.70 and 0.95. This suggests that high-usage players are generally more consistent scorers
 
 # Discussion:
 
 The regression analysis confirms a significant "usage penalty". For each 1% increase in a given player’s Usage Rate, when holding efficiency and turnover rate constant, their Offensive Rating is expected to decrease by 0.448 points. This suggests that simply increasing a player's workload without a corresponding increase in efficiency leads to diminishing returns for the team's offensive performance.
-Conversely, True Shooting Percentage (TS%) remains the most critical driver of offensive value. The coefficient of 143.097 implies that small gains in efficiency yield massive improvements in per-possession scoring. The permutation test further validated this by showing that high-usage players actually maintained a higher mean TS% (57.9%) compared to low-usage players (55.9%) in this specific dataset, likely due to "star" players being both high-volume and high-efficiency.
-The Geometric Distribution ... (Jijun write here)
+Conversely, True Shooting Percentage (TS%) remains the most critical driver of offensive value. The coefficient of 143.097 implies that small gains in efficiency yield massive improvements in per-possession scoring. The permutation test further validated this by showing that high-usage players actually maintained a higher mean TS% (57.9%) compared to low-usage players (55.9%) in this specific dataset, likely due to "star" players being both high-volume and high-efficiency.The Geometric Distribution shows that high-usage and low-usage players have a similar mean value of around 1.75 attempts to achieve their first successful score. However, the probability of scoring within the first two attempts differs between the two groups. Low-usage players show a much wider spread, with probabilities ranging from 0.30 to 1.00, while high-usage players are more concentrated between 0.70 and 0.95. This suggests that high-usage players are generally more consistent scorers.
 
 ### Limitations and Future Work
 A primary limitation of this study is the use of season-aggregate data. While the Geometric model provides theoretical insights into scoring "wait times," it assumes that every shot is an independent trial with a constant probability ($p$). In reality, factors such as defensive pressure, "hot hand" effects, and shot selection vary by game and possession. Future research could incorporate play-by-play data to model these transitions using Markov Chains or time-varying success probabilities.
