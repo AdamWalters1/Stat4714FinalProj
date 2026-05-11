@@ -1,17 +1,48 @@
 ---
-title: "FinalProj"
-author: "Adam Walters, Jijun Niu"
+title: "Final Stat 4714 Project Report"
+author: "Adam Walters, Jijun Niu, Emily Kehoe"
 date: "`r Sys.Date()`"
 output:
   pdf_document: default
   html_document: default
 ---
 
+# Introduction
+This project examines how key aspects of individual offensive performance influence an NBA player’s overall offensive contribution. Specifically, we analyze the relationship between Usage Rate (USG%), True Shooting Percentage (TS%), and Turnover Percentage (TO%), and their respective influences on Offensive Rating (ORtg).
+Usage Rate (USG%) measures how much a player is involved in the team’s offense. True Shooting Percentage (TS%) evaluates scoring efficiency by accounting for different shot values (e.g., field goals and free throws). Turnover Percentage (TO%) estimates the proportion of a player’s possessions that end in a turnover. Offensive Rating (ORtg) represents how many points a team scores per 100 possessions when the player is on the court.
+The goal of this report is to determine how these variables interact and how strongly each factor contributes to overall offensive performance.
+We are interested in analyzing “work load” versus "output efficiency" in basketball. In particular, we want to explore whether players who are used more heavily on offense experience diminishing returns in performance. This topic connects to course concepts such as regression and hypothesis testing by allowing us to model relationships between variables and test whether differences between groups are statistically significant.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Methodology
+The methodology for this project was designed to investigate the relationship between player workload and offensive efficiency using three distinct statistical frameworks: multiple linear regression, resampling-based hypothesis testing, and discrete probability modeling. All analyses were performed using R version 4.3.0.
+
+1. Data Collection and Preprocessing
+The primary dataset consists of 2025-2026 NBA player statistics obtained from NBAstuffer. To ensure the statistical integrity of the analysis and prevent skewing from small sample sizes, the following preprocessing steps were applied:
+Playtime Filters: Only players with at least 3 games played ($GP \ge 3$) and an average of 4 minutes per game ($MpG \ge 4$) were included.
+Outlier Removal: Observations with extreme Offensive Ratings ($ORtg < 50$ or $ORtg > 160$) and unrealistic Turnover Percentages ($TO\% < 2$ or $TO\% > 50$) were removed to maintain a representative system.
+Handling Missing Data: Rows containing incomplete entries for the primary variables (USG., TS., TO., and ORtg) were excluded to ensure a complete-case analysis for the regression model.
+
+2. Multiple Linear Regression
+After correcting for these extreme outliers and the player statistics formed using insufficient data, we use the cleaned data set to construct a multiple linear regression model. Our primary goal in doing so is to directly quantify how these three offensive components– Usage Rate (USG.), True Shooting  (TS.) Percentage and Turnover (TO.) Percentage– may contribute to a player’s overall Offensive Rating (ORtg.). 
+The regression equation is defined as:
+$$ORtg = \beta_0 + \beta_1(USG.) + \beta_2(TS.) + \beta_3(TO.) + \epsilon$$
+Where $\beta_0$ is the intercept, $\beta_{1,2,3}$ are the partial regression coefficients, and $\epsilon$ represents the random error term. This model allows us to isolate the "usage penalty" by observing $\beta_1$ while holding efficiency and ball security constant.
+
+3. Hypothesis Testing: Permutation Test
+To address the question of whether high workload significantly reduces scoring efficiency, we utilized a non-parametric resampling method: the Permutation Test.
+Groups: Players were partitioned into two tiers: High-Usage ($USG\% > 25$) and Low-Usage ($USG\% \le 25$).
+Test Statistic: The difference in mean True Shooting Percentage (TS%) between the two groups was calculated.
+Procedure: We conducted 10,000 permutations, shuffling the TS% labels across all players to generate a null distribution of mean differences. The p-value was then calculated as the proportion of permuted differences that were greater than or equal to the observed difference.
+4. Methodology for geometric dist (Jijun edit if you want)
+We will model the number of shot attempts required for a player to achieve their first successful score using a geometric distribution. The success probability p will be approximated by TS%. We will
+compute expected values $E[X]=1/p$ and probabilities such as $P(X>k)$to compare
+consistency between players with different usage levels. Modeling number of attempts to first score using TS% as the probability of success $p$.
+Step 1: use $E[x] = 1/p = 1/ ts%$ to find the mean value of the number of shot attempt a player need to achieve their first successful score.
+Step 2: use geometric distribution to find probability of the 2nd attempt be the first successful score for high usage and low usage NBS player.
 
 ```{r, include=FALSE}
 nba_data <- read.csv("25-25PlayerStats.csv")
@@ -39,8 +70,8 @@ cleaned_data <- cleaned_data[complete.cases(cleaned_data[, critical_cols]), ]
 summary(cleaned_data)
 ```
 
-
-# Part 1: Multiple Linear Regression
+# Results
+## Part 1: Multiple Linear Regression
 ### Implements linear regression model 
 $ORtg = \beta_0 + \beta_1(USG\%) + \beta_2(TS\%) + \beta_3(TO\%) + \epsilon$
 
@@ -96,9 +127,14 @@ plot(regression_model)
 
 par(mfrow = c(1, 1))
 ```
+Using a multiple linear regression model, we found predicted offensive rating as a function of usage rate, true-shooting percentage, and turnover percentage to be:
 
+Predicted ORtg = 53.4961 + -0.4189(USG.) + 137.4049(TS.) + -0.6008(TO.)
 
-# Part 2:Hypothesis Testing: Permutation test
+53.4961 is the y-intercept of the best-fit line, generated via our model. In this context, the y-intercept represents a purely mathematical value, since otherwise it would theoretically stand for the offensive rating of a player with 0 USG, TS, and TO percentages, which is realistically inviable. Our USG coefficient, -0.4189, implies that when holding TS% and TO% constant, a 1-point increase in Usage Rate is associated with about a 0.419 decrease in Offensive Rating. In other words, among players with similar shooting efficiency and turnover rate, higher usage is associated with slightly lower offensive rating. With TS coefficient 137.4049, we find, not unexpectedly, that holding USG and TO constant, a 1 percentage point increase in TS% is associated with nearly a 1.37 point increase in ORtg. Or, simply put, scoring efficiency is a very strong positive predictor of offensive rating. Finally, TS coefficient -0.6008 implies that when holding USG and TS constant, a 1-point increase in Turnover Percentage is associated with an approximately 0.601 decrease in ORtg. Thus, more turnovers correlate with lower offensive rating. 
+All three predictors had p-values very near to zero, ranging from approximately 1.69e-21 to 7.00e-202. This suggests that USG%, TS%, and TO% are statistically significant predictors of ORtg in this model. Additionally, the adjusted R^2 was found to be 0.8019, implying that roughly 80.2% of the Offensive Rating disparities between players can be accounted for by USG%, TO%, and TS% together. Finally, we note that the confidence intervals for the predictor coefficients did not include zero, further supporting the conclusion that each predictor has a meaningful relationship, whether positive or negative, with ORtg in the fitted model.
+
+## Part 2: Hypothesis Testing, Permutation test
 
 ```{r}
 # Define groups 
@@ -133,37 +169,39 @@ hist(perm_diffs, main="Distribution of Permuted Differences",
 abline(v = obs_diff, col="red", lwd=2)
 ```
 
-# Part 3: Discrete Distribution (geometric)
-We will model the number of shot attempts required for a player to achieve their first successful score using a geometric distribution. The success probability p will be approximated by TS%. We will
-compute expected values $E[X]=1/p$ and probabilities such as $P(X>k)$to compare
-consistency between players with different usage levels. Modeling number of attempts to first score using TS% as the probability of success $p$
+To test the "usage penalty" hypothesis, we compared the mean TS% of high-usage players ($USG\% > 25$) and low-usage players ($USG\% \le 25$):
+Permutation P-value: 0.0472
+The observed p-value of 0.0472 falls below the $\alpha = 0.05$ threshold, allowing us to reject the null hypothesis. This means there is a statistically significant difference in shooting efficiency between the two usage tiers. In fact, the higher usage group has the better efficiency.
+
+## Part 3: Discrete Distribution (geometric)
 
 
-step 1: use $E[x] = 1/p = 1/ ts%$ to find the mean value of the number of shot attempt a player need to achieve their first successful score
-
-step 2: use geometirc distribution to find probability of the 2nd attempt be the first successful score for high usage and low usage NBS player
-
-
-ctrl+ shift+ c --> comment multiple lines 
 ```{r}
 #high usage rate
 expected_value_h <- mean (1/high_usage)
 expected_value_h
 k  <- 2
 success_less_than_2_h <- pgeom(k-1,high_usage)
-hist(success_less_than_2_h, main="probability of getting the first score within 2 attempts for high usage player", xlab="Probability", col="skyblue")
+hist(success_less_than_2_h, main="Prob of getting first score within 2 attempts for high usage player", xlab="Probability", col="skyblue")
 
 # low usage rate
 expected_value_l <- mean (1/low_usage)
 expected_value_l
 
 success_less_than_2_l <- pgeom(k-1,low_usage)
-hist(success_less_than_2_l, main="probability of getting the first score within 2 attempts for low usage player", xlab="Probability", col="skyblue")
+hist(success_less_than_2_l, main="Prob of getting first score within 2 attempts for low usage player", xlab="Probability", col="skyblue")
 
 ```
 
 Discussion: 
 High-usage players and low-usage players have a similar mean value of around 1.75 attempts to achieve their first successful score. However, the probability of scoring within the first two attempts differs between the two groups. Low-usage players show a much wider spread, with probabilities ranging from 0.30 to 1.00, while high-usage players are more concentrated between 0.70 and 0.95. This suggests that high-usage players are generally more consistent scorers
 
+# Discussion:
 
+The regression analysis confirms a significant "usage penalty". For each 1% increase in a given player’s Usage Rate, when holding efficiency and turnover rate constant, their Offensive Rating is expected to decrease by 0.448 points. This suggests that simply increasing a player's workload without a corresponding increase in efficiency leads to diminishing returns for the team's offensive performance.
+Conversely, True Shooting Percentage (TS%) remains the most critical driver of offensive value. The coefficient of 143.097 implies that small gains in efficiency yield massive improvements in per-possession scoring. The permutation test further validated this by showing that high-usage players actually maintained a higher mean TS% (57.9%) compared to low-usage players (55.9%) in this specific dataset, likely due to "star" players being both high-volume and high-efficiency.
+The Geometric Distribution ... (Jijun write here)
+
+### Limitations and Future Work
+A primary limitation of this study is the use of season-aggregate data. While the Geometric model provides theoretical insights into scoring "wait times," it assumes that every shot is an independent trial with a constant probability ($p$). In reality, factors such as defensive pressure, "hot hand" effects, and shot selection vary by game and possession. Future research could incorporate play-by-play data to model these transitions using Markov Chains or time-varying success probabilities.
 
