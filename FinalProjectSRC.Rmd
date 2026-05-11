@@ -2,9 +2,11 @@
 title: "FinalProj"
 author: "Adam Walters, Jijun Niu"
 date: "`r Sys.Date()`"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
-## Set up: Clean Data
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -37,15 +39,10 @@ cleaned_data <- cleaned_data[complete.cases(cleaned_data[, critical_cols]), ]
 summary(cleaned_data)
 ```
 
-<<<<<<< HEAD
-# Multiple Linear Regression
+
+# Part 1: Multiple Linear Regression
 ### Implements linear regression model 
 $ORtg = \beta_0 + \beta_1(USG\%) + \beta_2(TS\%) + \beta_3(TO\%) + \epsilon$
-=======
-
-## Part 1: Multiple Linear Regression
-Implements linear regression model $ORtg = \beta_0 + \beta_1(USG\%) + \beta_2(TS\%) + \beta_3(TO\%) + \epsilon$
->>>>>>> 53de344b6ce0001a01938b133095e81824eb57b7
 
 ```{r}
 # Multiple linear regression based on cleaned data
@@ -61,11 +58,10 @@ coef_table <- coef(model_summary)
 coef_intervals <- confint(regression_model)
 
 #MULTIPLE LINEAR REGRESSION RESULTS
-
 #Regression equation coefficients:
 print(round(coef(regression_model), 4))
 
-#nRegression equation:
+#Regression equation:
 cat("Predicted ORtg = ",
     round(coef(regression_model)[1], 4), " + ",
     round(coef(regression_model)["USG."], 4), "(USG.) + ",
@@ -73,33 +69,37 @@ cat("Predicted ORtg = ",
     round(coef(regression_model)["TO."], 4), "(TO.)\n",
     sep = "")
 
-# Printing regression equation coefficients
+
 #Coefficient table:
 print(round(coef_table, 4))
 
-# Printing adjusted R^2
+
 #Adjusted R-squared:
 cat(round(model_summary$adj.r.squared, 4), "\n")
 
-# Printing p-values for intercept and predictors
+
 #P-values:
 print(coef_table[, "Pr(>|t|)"])
 
-# Confidence intervals for determined coefficients
+
 #95% confidence intervals for coefficients:
 print(round(coef_intervals, 4))
 
 # Plot model
+#plot(regression_model)
+
+par(mfrow = c(2, 2))
+
+# Generate the 4 residual plots
 plot(regression_model)
 
+
+par(mfrow = c(1, 1))
 ```
 
-<<<<<<< HEAD
-# Hypothesis Testing: Permutation test
 
-=======
-## Part 2:Hypothesis Testing: Permutation test
->>>>>>> 53de344b6ce0001a01938b133095e81824eb57b7
+# Part 2:Hypothesis Testing: Permutation test
+
 ```{r}
 # Define groups 
 high_usage <- cleaned_data$TS.[cleaned_data$USG. > 25]
@@ -135,11 +135,11 @@ abline(v = obs_diff, col="red", lwd=2)
 
 # Part 3: Discrete Distribution (geometric)
 We will model the number of shot attempts required for a player to achieve their first successful score using a geometric distribution. The success probability p will be approximated by TS%. We will
-compute expected values $ E[X]=1/p$ and probabilities such as $ P(X>k) $to compare
+compute expected values $E[X]=1/p$ and probabilities such as $P(X>k)$to compare
 consistency between players with different usage levels. Modeling number of attempts to first score using TS% as the probability of success $p$
 
 
-step 1: use $E[x] = 1/p = 1/ ts% $ to find the mean value of the number of shot attempt a player need to achieve their first successful score
+step 1: use $E[x] = 1/p = 1/ ts%$ to find the mean value of the number of shot attempt a player need to achieve their first successful score
 
 step 2: use geometirc distribution to find probability of the 2nd attempt be the first successful score for high usage and low usage NBS player
 
@@ -164,9 +164,6 @@ hist(success_less_than_2_l, main="probability of getting the first score within 
 
 Discussion: 
 High-usage players and low-usage players have a similar mean value of around 1.75 attempts to achieve their first successful score. However, the probability of scoring within the first two attempts differs between the two groups. Low-usage players show a much wider spread, with probabilities ranging from 0.30 to 1.00, while high-usage players are more concentrated between 0.70 and 0.95. This suggests that high-usage players are generally more consistent scorers
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 53de344b6ce0001a01938b133095e81824eb57b7
 
