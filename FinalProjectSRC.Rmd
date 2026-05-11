@@ -37,12 +37,12 @@ To address the question of whether high workload significantly reduces scoring e
 Groups: Players were partitioned into two tiers: High-Usage ($USG\% > 25$) and Low-Usage ($USG\% \le 25$).
 Test Statistic: The difference in mean True Shooting Percentage (TS%) between the two groups was calculated.
 Procedure: We conducted 10,000 permutations, shuffling the TS% labels across all players to generate a null distribution of mean differences. The p-value was then calculated as the proportion of permuted differences that were greater than or equal to the observed difference.
-4. Methodology for geometric dist (Jijun edit if you want)
-We will model the number of shot attempts required for a player to achieve their first successful score using a geometric distribution. The success probability p will be approximated by TS%. We will
-compute expected values $E[X]=1/p$ and probabilities such as $P(X>k)$to compare
-consistency between players with different usage levels. Modeling number of attempts to first score using TS% as the probability of success $p$.
-Step 1: use $E[x] = 1/p = 1/ ts%$ to find the mean value of the number of shot attempt a player need to achieve their first successful score.
-Step 2: use geometric distribution to find probability of the 2nd attempt be the first successful score for high usage and low usage NBS player.
+4. Geometric distribution
+We will model the number of shot attempts required for a player to achieve their first successful score using a geometric distribution, where the success probability p will be approximated by TS%. We then will
+compute expected values $E[X]=1/p$ and probabilities such as $P(X>k)$to compare scoring
+consistency between high-usage and low-usage players using expected values and probability calculations.
+Step 1: Use $E[x] = 1/p = 1/ ts%$ to find the expected number of attempts to achieve the first successful score
+Step 2: Use the geometric distribution to calculate the probability that the second attempt is the player’s first successful score for both high-usage and low-usage NBA players.
 
 ```{r, include=FALSE}
 nba_data <- read.csv("25-25PlayerStats.csv")
@@ -192,12 +192,14 @@ success_less_than_2_l <- pgeom(k-1,low_usage)
 hist(success_less_than_2_l, main="Prob of getting first score within 2 attempts for low usage player", xlab="Probability", col="skyblue")
 
 ```
+The results show that high-usage players have an expected value of 1.722 shot attempts to achieve their first successful score, while low-usage players have an expected value of 1.818 attempts. This aligns with our expectation that high-usage players generally possess stronger scoring ability and efficiency than low-usage players. However, the difference between the two expected values is relatively small, suggesting that both groups are capable of scoring within a similar number of attempts on average.
 
+Although the mean values are close, the geometric distribution reveals a noticeable difference in scoring consistency between the two groups. High-usage players have probabilities that are more concentrated between 0.70 and 0.95 for scoring within the first two attempts, while low-usage players display a much wider spread ranging from 0.30 to 1.00. This wider variation indicates that low-usage players are less predictable in their scoring performance, with some players scoring very efficiently and others struggling to score early. In contrast, high-usage players demonstrate more stable and reliable scoring patterns across the dataset.
 
 # Discussion:
 
 The regression analysis confirms a significant "usage penalty". For each 1% increase in a given player’s Usage Rate, when holding efficiency and turnover rate constant, their Offensive Rating is expected to decrease by 0.448 points. This suggests that simply increasing a player's workload without a corresponding increase in efficiency leads to diminishing returns for the team's offensive performance.
-Conversely, True Shooting Percentage (TS%) remains the most critical driver of offensive value. The coefficient of 143.097 implies that small gains in efficiency yield massive improvements in per-possession scoring. The permutation test further validated this by showing that high-usage players actually maintained a higher mean TS% (57.9%) compared to low-usage players (55.9%) in this specific dataset, likely due to "star" players being both high-volume and high-efficiency.The Geometric Distribution shows that high-usage and low-usage players have a similar mean value of around 1.75 attempts to achieve their first successful score. However, the probability of scoring within the first two attempts differs between the two groups. Low-usage players show a much wider spread, with probabilities ranging from 0.30 to 1.00, while high-usage players are more concentrated between 0.70 and 0.95. This suggests that high-usage players are generally more consistent scorers.
+Conversely, True Shooting Percentage (TS%) remains the most critical driver of offensive value. The coefficient of 143.097 implies that small gains in efficiency yield massive improvements in per-possession scoring. The permutation test further validated this by showing that high-usage players actually maintained a higher mean TS% (57.9%) compared to low-usage players (55.9%) in this specific dataset, likely due to "star" players being both high-volume and high-efficiency.The Geometric Distribution suggests that high-usage players are not only slightly more efficient scorers on average, but are also more consistent in achieving early scoring success. The similarity in expected values shows that both groups can score within a comparable number of attempts, but the probability distribution highlights that high-usage players perform with greater reliability and less variation.
 
 ### Limitations and Future Work
 A primary limitation of this study is the use of season-aggregate data. While the Geometric model provides theoretical insights into scoring "wait times," it assumes that every shot is an independent trial with a constant probability ($p$). In reality, factors such as defensive pressure, "hot hand" effects, and shot selection vary by game and possession. Future research could incorporate play-by-play data to model these transitions using Markov Chains or time-varying success probabilities.
